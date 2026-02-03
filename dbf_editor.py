@@ -8,6 +8,10 @@ import sys
 from datetime import datetime
 import ctypes
 
+
+VERSION = "v1.0.1"
+ENCODING = 'cp950'
+
 # 1. High-DPI Awareness (Fix jagged/blurry text on Windows)
 try:
     ctypes.windll.shcore.SetProcessDpiAwareness(1)
@@ -21,9 +25,6 @@ DBF_FOLDER_NAME = "DAGA"
 DBF_NAME= "DAGA.DBF"
 DBF_BACKUP_NAME = "DAGA_BACKUP.DBF"
 
-# DBF_PATH = "DAGA/DAGA.DBF"
-# BACKUP_PATH = "DAGA/DAGA.DBF.bak"
-ENCODING = 'cp950'
 
 class SetupFilePath(object):
     def __init__(self):
@@ -115,8 +116,16 @@ class DBFEditorApp(SetupFilePath):
         btn_save.pack(side=tk.LEFT, padx=10)
 
         # Status Bar
-        self.status = ttk.Label(root, text="就緒 - 請輸入編號搜尋", relief=tk.SUNKEN, anchor=tk.W)
-        self.status.pack(side=tk.BOTTOM, fill=tk.X)
+        status_frame = ttk.Frame(root)
+        status_frame.pack(side=tk.BOTTOM, fill=tk.X)
+        
+        # Add a separator line above the status bar
+        ttk.Separator(root, orient=tk.HORIZONTAL).pack(side=tk.BOTTOM, fill=tk.X)
+
+        self.status = ttk.Label(status_frame, text="就緒 - 請輸入編號搜尋", anchor=tk.W)
+        self.status.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5, pady=2)
+
+        ttk.Label(status_frame, text=VERSION).pack(side=tk.RIGHT, padx=5, pady=2)
 
         # Main Content Area (Scrollable)
         self.fields_frame = ttk.LabelFrame(root, text="資料內容 (可直接修改)", padding=5)
